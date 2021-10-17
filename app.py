@@ -12,7 +12,7 @@ def index():
 @app.route('/projects/new', methods=['GET', 'POST'])
 def new_project():
     if request.form:
-        date = datetime.strptime(request.form['date'], '%Y-%d')
+        date = datetime.strptime(request.form['date'], '%Y-%m')
         new_project = Project(
         title = request.form['title'],
         description = request.form['desc'],
@@ -33,10 +33,19 @@ def project(id):
     return render_template('detail.html', project=project, date=date, skills=skills)
 
 
-@app.route('/projects/<id>/edit')
+@app.route('/projects/<id>/edit', methods=['GET', 'POST'])
 def edit_project(id):
     project = Project.query.get_or_404(id)
     date = project.completion_date.strftime('%Y-%d')
+    if request.form:
+        project.title = request.form['title']
+        project.completion_date = datetime.strptime(request.form['date'], '%Y-%m')
+        print(project.completion_date)
+        project.description = request.form['desc']
+        project.skills = request.form['skills']
+        project.github = request.form['github']
+        db.session.commit()
+        return redirect(url_for('index'))
     return render_template('editform.html', project=project, date=date)
 
 
