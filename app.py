@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, request
 from models import db, Project, app
-import datetime
+from datetime import datetime
 
 @app.route('/')
 def index():
@@ -9,25 +9,43 @@ def index():
     return render_template('index.html', projects=projects)
 
 
-@app.route('/projects/new')
+@app.route('/projects/new', methods=['GET', 'POST'])
 def new_project():
-    pass
+    if request.form:
+        date = datetime.strptime(request.form['date'], '%Y-%d')
+        new_project = Project(
+        title = request.form['title'],
+        description = request.form['desc'],
+        completion_date = date,
+        skills = request.form['skills'],
+        github = request.form['github'])
+        db.session.add(new_project)
+        db.session.commit()
+        return redirect(url_for('index'))
+    return render_template('projectform.html')
 
 
 @app.route('/projects/<id>')
 def project(id):
     project = Project.query.get_or_404(id)
-    return render_template('detail.html', project=project)
+    date = project.completion_date.strftime('%B %Y')
+    skills = project.skills.split(', ')
+    return render_template('detail.html', project=project, date=date, skills=skills)
 
 
 @app.route('/projects/<id>/edit')
 def edit_project(id):
-    pass
+    project = Project.query.get_or_404(id)
+    date = project.completion_date.strftime('%Y-%d')
+    return render_template('editform.html', project=project, date=date)
 
 
 @app.route('/projects/<id>/delete')
 def delete_project(id):
-    pass
+    project = Project.query.get_or_404(id)
+    db.session.delete(project)
+    db.session.commit()
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
