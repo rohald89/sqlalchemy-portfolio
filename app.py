@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, request
 from models import db, Project, app
 from datetime import datetime
 
+
 @app.route('/')
 def index():
     projects = Project.query.all()
@@ -40,7 +41,7 @@ def project(id):
 @app.route('/projects/<id>/edit', methods=['GET', 'POST'])
 def edit_project(id):
     project = Project.query.get_or_404(id)
-    date = project.completion_date.strftime('%Y-%d')
+    date = project.completion_date.strftime('%Y-%m')
     if request.form:
         project.title = request.form['title']
         project.completion_date = datetime.strptime(request.form['date'], '%Y-%m')
@@ -59,6 +60,12 @@ def delete_project(id):
     db.session.delete(project)
     db.session.commit()
     return redirect(url_for('index'))
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html', msg=error), 404
+
 
 
 if __name__ == '__main__':

@@ -14,7 +14,7 @@
         <section class="navigation">
             <nav class="navbar navbar-expand-lg">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="#">Rohald van Merode</a>
+                  <a class="navbar-brand" href="{{ url_for('index') }}">Rohald van Merode</a>
                   <button class="toggle" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fas fa-bars"></i>
                   </button>
@@ -24,10 +24,10 @@
                         <a class="nav-link active" aria-current="page" href="{{ url_for('index')}}">Home</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="{{ url_for('about')}}">About</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#skills">Skills</a>
+                        <a class="nav-link" href="./#skills">Skills</a>
                       </li>
                       <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -41,7 +41,7 @@
                         </ul>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="./#contact">Contact</a>
                       </li>
                       <li class="nav-item">
                         <a class="nav-link" href="{{url_for('new_project')}}">Add Project</a>
@@ -55,22 +55,14 @@
         {% endblock %}
         <section class="footer">
           <div class="socials">
-              <!--Delete any you don't use-->
-              <!--Icons from FontAwesome.com/icons-->
-              <a href="">
-                  <i class="fab fa-twitter"></i>
-              </a>
-              <a href="">
+              <a href="https://github.com/rohald89">
                   <i class="fab fa-github"></i>
               </a>
-              <a href="">
+              <a href="https://www.linkedin.com/in/rohald89/">
                   <i class="fab fa-linkedin"></i>
               </a>
-              <a href="">
+              <a href="https://www.instagram.com/rohald.codes/">
                   <i class="fab fa-instagram"></i>
-              </a>
-              <a href="">
-                  <i class="fab fa-tiktok"></i>
               </a>
           </div>
           <div class="treehouse">
