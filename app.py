@@ -5,8 +5,12 @@ from datetime import datetime
 @app.route('/')
 def index():
     projects = Project.query.all()
-    print(projects)
     return render_template('index.html', projects=projects)
+
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 
 @app.route('/projects/new', methods=['GET', 'POST'])
