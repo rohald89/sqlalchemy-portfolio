@@ -11,11 +11,13 @@ def index():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    projects = Project.query.all()
+    return render_template('about.html', projects=projects)
 
 
 @app.route('/projects/new', methods=['GET', 'POST'])
 def new_project():
+    projects = Project.query.all()
     if request.form:
         date = datetime.strptime(request.form['date'], '%Y-%m')
         new_project = Project(
@@ -27,7 +29,7 @@ def new_project():
         db.session.add(new_project)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('projectform.html')
+    return render_template('projectform.html', projects=projects)
 
 
 @app.route('/projects/<id>')
@@ -40,6 +42,7 @@ def project(id):
 
 @app.route('/projects/<id>/edit', methods=['GET', 'POST'])
 def edit_project(id):
+    projects = Project.query.all()
     project = Project.query.get_or_404(id)
     date = project.completion_date.strftime('%Y-%m')
     if request.form:
@@ -51,7 +54,7 @@ def edit_project(id):
         project.github = request.form['github']
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('editform.html', project=project, date=date)
+    return render_template('editform.html', projects=projects, project=project, date=date)
 
 
 @app.route('/projects/<id>/delete')
@@ -64,7 +67,8 @@ def delete_project(id):
 
 @app.errorhandler(404)
 def not_found(error):
-    return render_template('404.html', msg=error), 404
+    projects = Project.query.all()
+    return render_template('404.html', projects=projects, msg=error), 404
 
 
 
